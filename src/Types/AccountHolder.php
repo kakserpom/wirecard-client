@@ -6,7 +6,7 @@ namespace WirecardClient\Types;
 
 final class AccountHolder extends Base
 {
-    public static function make(string $firstName, string $lastName, string $email, string $phone, Address $address)
+    public static function make(string $firstName = null, string $lastName = null, string $email = null, string $phone = null, Address $address = null)
     {
         $self = new self;
         $firstName === null || $self->setFirstName($firstName);
