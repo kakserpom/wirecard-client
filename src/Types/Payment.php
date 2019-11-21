@@ -37,7 +37,7 @@ final class Payment extends Base
     {
         $errors = [];
         foreach ($this->statuses->status ?? [] as $status) {
-            if ($status->severity === 'error') {
+            if (($status->severity ?? '') === 'error') {
                 $errors[] = '#' . $status->code . ': ' . $status->description;
             }
         }
