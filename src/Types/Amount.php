@@ -18,4 +18,21 @@ final class Amount extends Base
         $self->currency = $currency;
         return $self;
     }
+
+
+    /**
+     * @return float
+     */
+    public function getValue(): float
+    {
+        return $this->value;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrency(): string
+    {
+        return $this->currency;
+    }
 }

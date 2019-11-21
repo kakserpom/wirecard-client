@@ -108,7 +108,7 @@ class WirecardClient
 
     /**
      * @param Payment $payment
-     * @return RegisterPayment
+     * @return Payment
      * @throws RequestFailedException
      */
     public function registerPayment(Payment $payment)

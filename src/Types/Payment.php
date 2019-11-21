@@ -80,6 +80,14 @@ final class Payment extends Base
         $this->{'ip-address'} = $ipAddress;
     }
 
+    /**
+     * @param string $transactionId
+     */
+    public function setParentTransactionId(string $transactionId)
+    {
+        $this->{'parent-transaction-id'} = $transactionId;
+    }
+
 
     /**
      * @param Card $card
@@ -87,6 +95,15 @@ final class Payment extends Base
     public function setCard(Card $card)
     {
         $this->card = $card;
+    }
+
+
+    /**
+     * @param CardToken $cardToken
+     */
+    public function setCardToken(CardToken $cardToken)
+    {
+        $this->{'card-token'} = $cardToken;
     }
 
 
