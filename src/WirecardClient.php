@@ -130,7 +130,7 @@ class WirecardClient
             ],
             CURLOPT_POSTFIELDS => $payload,
         ]);
-        return Payment::fromArray($this->getResponse($ch));
+        return Payment::fromObject($this->getResponse($ch));
     }
 
     /**
@@ -270,6 +270,6 @@ class WirecardClient
             return null;
         }
 
-        return Payment::fromArray($response->payment);
+        return Payment::fromObject($response->payment);
     }
 }

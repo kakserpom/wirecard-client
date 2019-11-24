@@ -11,11 +11,9 @@ final class Periodic extends Base
      * @param string $sequenceType first/recurring/final
      * @return Periodic
      */
-    public static function make(string $periodicType, string $sequenceType)
+    public function __construct(string $periodicType, string $sequenceType)
     {
-        $self = new self;
-        $self->setPeriodicType($periodicType);
-        $self->setSequenceType($sequenceType);
-        return $self;
+        $this->setPeriodicType($periodicType);
+        $this->setSequenceType($sequenceType);
     }
 }

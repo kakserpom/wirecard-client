@@ -17,6 +17,6 @@ final class SearchPayment extends Base
         if (!(array)$this->payment) {
             throw new DataNotFoundException;
         }
-        return Payment::fromArray($this->payment);
+        return Payment::fromObject($this->payment);
     }
 }

@@ -11,12 +11,10 @@ final class Amount extends Base
      * @param string $currency
      * @return Amount
      */
-    public static function make(float $amount, string $currency)
+    public function __construct(float $amount, string $currency)
     {
-        $self = new self;
-        $self->value = $amount;
-        $self->currency = $currency;
-        return $self;
+        $this->value = $amount;
+        $this->currency = $currency;
     }
 
 

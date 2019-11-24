@@ -14,14 +14,12 @@ final class Address extends Base
      * @param string $postalCode
      * @return Address
      */
-    public static function make(string $street1, string $city, string $state, string $country, string $postalCode)
+    public function __construct(string $street1, string $city, string $state, string $country, string $postalCode)
     {
-        $self = new self;
-        $self->street1 = $street1;
-        $self->city = $city;
-        $self->state = $state;
-        $self->country = $country;
-        $self->{'postal-code'} = $postalCode;
-        return $self;
+        $this->street1 = $street1;
+        $this->city = $city;
+        $this->state = $state;
+        $this->country = $country;
+        $this->{'postal-code'} = $postalCode;
     }
 }

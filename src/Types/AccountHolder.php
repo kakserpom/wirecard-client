@@ -6,15 +6,13 @@ namespace WirecardClient\Types;
 
 final class AccountHolder extends Base
 {
-    public static function make(string $firstName = null, string $lastName = null, string $email = null, string $phone = null, Address $address = null)
+    public function __construct(string $firstName = null, string $lastName = null, string $email = null, string $phone = null, Address $address = null)
     {
-        $self = new self;
-        $firstName === null || $self->setFirstName($firstName);
-        $lastName === null || $self->setLastName($lastName);
-        $email === null || $self->setEmail($email);
-        $phone === null || $self->setPhone($phone);
-        $address === null || $self->setAddress($address);
-        return $self;
+        $firstName === null || $this->setFirstName($firstName);
+        $lastName === null || $this->setLastName($lastName);
+        $email === null || $this->setEmail($email);
+        $phone === null || $this->setPhone($phone);
+        $address === null || $this->setAddress($address);
     }
 
     /**
@@ -25,6 +23,6 @@ final class AccountHolder extends Base
         if (!isset($this->address)) {
             return null;
         }
-        return $this->address instanceof Address ? $this->address : Address::fromArray($this->address);
+        return $this->address instanceof Address ? $this->address : Address::fromObject($this->address);
     }
 }

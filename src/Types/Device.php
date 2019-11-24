@@ -10,10 +10,8 @@ final class Device extends Base
      * @param string $fingerprint
      * @return Device
      */
-    public static function make(string $fingerprint)
+    public function __construct(string $fingerprint)
     {
-        $self = new self;
-        $self->fingerprint = $fingerprint;
-        return $self;
+        $this->fingerprint = $fingerprint;
     }
 }

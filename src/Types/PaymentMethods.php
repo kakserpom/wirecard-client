@@ -9,11 +9,9 @@ final class PaymentMethods extends Base
     /**
      * @param array $methods
      */
-    public function make(array $methods)
+    public function __construct(array $methods)
     {
-        $self = new self;
-        $self->methods = $methods;
-        return $self;
+        $this->methods = $methods;
     }
 
     /**

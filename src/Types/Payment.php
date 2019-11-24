@@ -12,14 +12,12 @@ final class Payment extends Base
      * @param Amount $amount
      * @return Payment
      */
-    public static function make(string $requestId = null, Amount $amount = null)
+    public function __construct(string $requestId = null, Amount $amount = null)
     {
-        $self = new self;
-        $self->{'request-id'} = $requestId ?? self::guidv4();
+        $this->{'request-id'} = $requestId ?? self::guidv4();
         if ($amount) {
-            $self->{'requested-amount'} = $amount;
+            $this->{'requested-amount'} = $amount;
         }
-        return $self;
     }
 
     /**
@@ -115,7 +113,7 @@ final class Payment extends Base
         if (!isset($this->{'card-token'})) {
             return null;
         }
-        return $this->{'card-token'} instanceof CardToken ? $this->{'card-token'} : CardToken::fromArray($this->{'card-token'});
+        return $this->{'card-token'} instanceof CardToken ? $this->{'card-token'} : CardToken::fromObject($this->{'card-token'});
     }
 
 
@@ -127,7 +125,7 @@ final class Payment extends Base
         if (!isset($this->{'account-holder'})) {
             return null;
         }
-        return $this->{'account-holder'} instanceof AccountHolder ? $this->{'account-holder'} : AccountHolder::fromArray($this->{'account-holder'});
+        return $this->{'account-holder'} instanceof AccountHolder ? $this->{'account-holder'} : AccountHolder::fromObject($this->{'account-holder'});
     }
 
     /**

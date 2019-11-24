@@ -14,14 +14,12 @@ final class Card extends Base
      * @param string $code
      * @return Card
      */
-    public static function make(string $number, int $expMonth, int $expYear, string $type, string $code)
+    public function __construct(string $number, int $expMonth, int $expYear, string $type, string $code)
     {
-        $self = new self;
-        $self->{'account-number'} = $number;
-        $self->{'expiration-month'} = sprintf('%02d', $expMonth);
-        $self->{'expiration-year'} = sprintf('%02d', $expYear);
-        $self->{'card-type'} = $type;
-        $self->{'card-security-code'} = $code;
-        return $self;
+        $this->{'account-number'} = $number;
+        $this->{'expiration-month'} = sprintf('%02d', $expMonth);
+        $this->{'expiration-year'} = sprintf('%02d', $expYear);
+        $this->{'card-type'} = $type;
+        $this->{'card-security-code'} = $code;
     }
 }

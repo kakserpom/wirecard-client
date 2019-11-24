@@ -6,19 +6,29 @@ namespace WirecardClient\Types;
 
 abstract class Base
 {
+
     /**
-     * @param $array
+     * @param mixed ...$args
      * @return static
      */
-    public static function fromArray($array)
+    public static function make(...$args)
     {
-        $payment = new static;
+        return new static(...$args);
+    }
 
-        foreach ($array as $prop => $value) {
-            $payment->{$prop} = $value;
-        }
-
-        return $payment;
+    /**
+     * @param object $object
+     * @return static
+     */
+    public static function fromObject(object $object)
+    {
+        $class = static::class;
+        $str = serialize($object);
+        $split = explode(':', $str, 4);
+        $split[1] = strlen($class);
+        $split[2] = rtrim(explode(':', serialize($class), 3)[2], ';');
+        $str = join(':', $split);
+        return unserialize($str);
     }
 
     /**
@@ -38,7 +48,7 @@ abstract class Base
     {
         return trim(preg_replace_callback('~(?<![A-Z])[A-Z]~', function (array $match) {
             return '-' . strtolower($match[0]);
-        }, $str),'-');
+        }, $str), '-');
     }
 
     /**

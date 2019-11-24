@@ -11,11 +11,9 @@ final class CardToken extends Base
      * @param string $mask
      * @return CardToken
      */
-    public static function make(string $token, string $mask)
+    public function __construct(string $token, string $mask)
     {
-        $self = new self;
-        $self->{'token-id'} = $token;
-        $self->{'masked-account-number'} = $mask;
-        return $self;
+        $this->{'token-id'} = $token;
+        $this->{'masked-account-number'} = $mask;
     }
 }
