@@ -64,16 +64,48 @@ final class Payment extends Base
     /**
      * @param string $type
      */
-    public function setTransactionType(string $type)
+    public function setTransactionType(string $type): void
     {
         $this->{'transaction-type'} = $type;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setCreditorId(string $id): void
+    {
+        $this->{'creditor-id'} = $id;
+    }
+
+    /**
+     * @param string $descriptor
+     */
+    public function setDescriptor(string $descriptor): void
+    {
+        $this->{'descriptor'} = $descriptor;
+    }
+
+    /**
+     * @param BankAccount $bankAccount
+     */
+    public function setBankAccount(BankAccount $bankAccount): void
+    {
+        $this->{'bank-account'} = $bankAccount;
+    }
+
+    /**
+     * @param Mandate $mandate
+     */
+    public function setMandate(Mandate $mandate): void
+    {
+        $this->{'mandate'} = $mandate;
     }
 
 
     /**
      * @param string $ipAddress
      */
-    public function setIpAddress(string $ipAddress)
+    public function setIpAddress(string $ipAddress): void
     {
         $this->{'ip-address'} = $ipAddress;
     }
@@ -81,7 +113,7 @@ final class Payment extends Base
     /**
      * @param string $transactionId
      */
-    public function setParentTransactionId(string $transactionId)
+    public function setParentTransactionId(string $transactionId): void
     {
         $this->{'parent-transaction-id'} = $transactionId;
     }
@@ -90,7 +122,7 @@ final class Payment extends Base
     /**
      * @param Card $card
      */
-    public function setCard(Card $card)
+    public function setCard(Card $card): void
     {
         $this->card = $card;
     }
@@ -99,11 +131,10 @@ final class Payment extends Base
     /**
      * @param CardToken $cardToken
      */
-    public function setCardToken(CardToken $cardToken)
+    public function setCardToken(CardToken $cardToken): void
     {
         $this->{'card-token'} = $cardToken;
     }
-
 
     /**
      * @return CardToken|null
