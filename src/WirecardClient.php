@@ -66,7 +66,6 @@ class WirecardClient
     {
         $ch = curl_init();
 
-        var_dump($this->eeUser . ':' . $this->eePassword);
         curl_setopt_array($ch, [
             CURLOPT_USERPWD => $this->eeUser . ':' . $this->eePassword,
             CURLOPT_RETURNTRANSFER => 1,
