@@ -9,12 +9,14 @@ final class BankAccount extends Base
     /**
      * BankAccount constructor.
      * @param string $iban
-     * @param string $bic
+     * @param string|null $bic
      */
-    public function __construct(string $iban, string $bic)
+    public function __construct(string $iban, ?string $bic)
     {
         $this->iban = $iban;
-        $this->bic = $bic;
+        if (strlen($bic)) {
+            $this->bic = $bic;
+        }
     }
 
     /**

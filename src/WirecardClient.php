@@ -66,6 +66,7 @@ class WirecardClient
     {
         $ch = curl_init();
 
+        var_dump($this->eeUser . ':' . $this->eePassword);
         curl_setopt_array($ch, [
             CURLOPT_USERPWD => $this->eeUser . ':' . $this->eePassword,
             CURLOPT_RETURNTRANSFER => 1,
@@ -121,14 +122,8 @@ class WirecardClient
             ['payment' => $payment]
             , JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        if (in_array('sepadirectdebit', $payment->getPaymentMethods()->methods ?? [])) {
-            $url = $this->apiUrl . 'engine/rest/paymentmethods/';
-        } else {
-            $url = $this->apiUrl . 'engine/rest/payments/';
-        }
-        var_dump($url);
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $url,
+         curl_setopt_array($ch, [
+            CURLOPT_URL => $this->apiUrl . 'engine/rest/payments/',
             CURLOPT_POST => 1,
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json',
@@ -136,7 +131,9 @@ class WirecardClient
             ],
             CURLOPT_POSTFIELDS => $payload,
         ]);
-        return Payment::fromObject($this->getResponse($ch));
+        $response = $this->getResponse($ch);
+        
+        return Payment::fromObject($response);
     }
 
     /**
@@ -218,8 +215,7 @@ class WirecardClient
             $xml = simplexml_load_string($response);
             $object = self::xml2json($xml);
         } else {
-            // @TODO: Waiting for 7.3 to use JSON_THROW_ON_ERROR
-            $object = json_decode($response);
+            $object = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
             if ($object === false) {
                 throw new RequestFailedException('Malformed JSON');
             }

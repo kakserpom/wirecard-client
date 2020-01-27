@@ -11,18 +11,10 @@ final class PaymentMethods extends Base
      */
     public function __construct(array $methods)
     {
-        $this->methods = $methods;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        $ret = [];
-        foreach ($this->methods as $name) {
-           $ret[] = ['payment-method' => ['name' => $name]];
+        $array = [];
+        foreach ($methods as $name) {
+            $array[] = ['name' => $name];
         }
-        return $ret;
+        $this->{'payment-method'} = $array;
     }
 }
