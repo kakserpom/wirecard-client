@@ -121,8 +121,14 @@ class WirecardClient
             ['payment' => $payment]
             , JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-         curl_setopt_array($ch, [
-            CURLOPT_URL => $this->apiUrl . 'engine/rest/payments/',
+        if ($payment->getPaymentMethods()->hasMethod('sepadirectdebit')) {
+            $url = $this->apiUrl . 'engine/rest/paymentmethods/';
+        } else {
+            $url = $this->apiUrl . 'engine/rest/payments/';
+        }
+
+        curl_setopt_array($ch, [
+            CURLOPT_URL => $url,
             CURLOPT_POST => 1,
             CURLOPT_HTTPHEADER => [
                 'Content-Type: application/json',
@@ -131,7 +137,7 @@ class WirecardClient
             CURLOPT_POSTFIELDS => $payload,
         ]);
         $response = $this->getResponse($ch);
-        
+
         return Payment::fromObject($response);
     }
 

@@ -192,6 +192,14 @@ final class Payment extends Base
     }
 
     /**
+     * @return PaymentMethods
+     */
+    public function getPaymentMethods(): PaymentMethods
+    {
+        return $this->{'payment-methods'} ?? new PaymentMethods([]);
+    }
+
+    /**
      * @param string $value
      */
     public function setOrderNumber(string $value)
