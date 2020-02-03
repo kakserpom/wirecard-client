@@ -6,16 +6,6 @@ namespace WirecardClient\Types;
 
 abstract class Base
 {
-
-    /**
-     * @param mixed ...$args
-     * @return static
-     */
-    public static function make(...$args)
-    {
-        return new static(...$args);
-    }
-
     /**
      * @param object $object
      * @return static
@@ -68,6 +58,7 @@ abstract class Base
             } else {
                 $this->{$key} = $args[0];
             }
+            return $this;
         } else {
             throw new \ErrorException('Undefined method called: ' . $method);
         }
