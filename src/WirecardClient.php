@@ -121,11 +121,8 @@ class WirecardClient
             ['payment' => $payment]
             , JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        if ($payment->getPaymentMethods()->hasMethod('sepadirectdebit')) {
-            $url = $this->apiUrl . 'engine/rest/paymentmethods/';
-        } else {
-            $url = $this->apiUrl . 'engine/rest/payments/';
-        }
+
+        $url = $this->apiUrl . 'engine/rest/' . $payment->getRestMethod() . '/';
 
         curl_setopt_array($ch, [
             CURLOPT_URL => $url,
@@ -168,39 +165,6 @@ class WirecardClient
                 . urlencode($requestId)
         ]);
         return new SearchPayment($this->getResponse($ch));
-    }
-
-    /**
-     *
-     * @param string $transactionId
-     * @param float $amount
-     * @param string $currency
-     * @param array $params
-     * @return array
-     * @throws RequestFailedException
-     */
-    public function refundPurchase(Payment $payment)
-    {
-        $payment->setMerchantAccountId($this->MAID);
-        $payment->setTransactionType('refund-purchase');
-
-        $ch = $this->initCurl();
-
-        $payload = json_encode(
-            ['payment' => $payment]
-            , JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-        curl_setopt_array($ch, [
-            CURLOPT_URL => $this->apiUrl . 'engine/rest/payments/',
-            CURLOPT_POST => 1,
-            CURLOPT_HTTPHEADER => [
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($payload),
-            ],
-            CURLOPT_POSTFIELDS => $payload,
-        ]);
-
-        return $this->getResponse($ch);
     }
 
     /**

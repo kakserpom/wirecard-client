@@ -3,9 +3,12 @@
 
 namespace WirecardClient\Types;
 
-
 final class Payment extends Base
 {
+    /**
+     * @var string  'payments' (cards) or 'paymentmethods' (for SEPA)
+     */
+    private $restMethod = 'payments';
 
     /**
      * @param string $requestId
@@ -16,8 +19,48 @@ final class Payment extends Base
     {
         $this->{'request-id'} = $requestId ?? self::guidv4();
         if ($amount) {
-            $this->{'requested-amount'} = $amount;
+            $this->setRequestedAmount($amount);
         }
+    }
+
+    /**
+     * @param Amount $amount
+     * @return $this
+     */
+    public function setRequestedAmount(Amount $amount): self
+    {
+
+        $this->{'requested-amount'} = $amount;
+        return $this;
+    }
+
+    /**
+     * @return Amount|null
+     */
+    public function getRequestedAmount(): ?Amount
+    {
+        if (!isset($this->{'requested-amount'})) {
+            return null;
+        }
+        return Amount::fromObject($this->{'requested-amount'});
+    }
+
+    /**
+     * @param string $method 'payments' (cards) or 'paymentmethods' (for SEPA)
+     * @return $this
+     */
+    public function setRestMethod(string $method): self
+    {
+        $this->restMethod = $method;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRestMethod(): string
+    {
+        return $this->restMethod;
     }
 
     /**
@@ -213,10 +256,13 @@ final class Payment extends Base
     }
 
     /**
-     * @return PaymentMethods
+     * @return PaymentMethods|null
      */
-    public function getPaymentMethods(): PaymentMethods
+    public function getPaymentMethods(): ?PaymentMethods
     {
+        if (!$this->{'payment-methods'}) {
+            return null;
+        }
         return $this->{'payment-methods'} instanceof PaymentMethods
             ? $this->{'payment-methods'}
             : PaymentMethods::fromObject($this->{'payment-methods'});
