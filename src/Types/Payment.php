@@ -81,10 +81,14 @@ final class Payment extends Base
      */
     public function errors (): array
     {
+        $it = $this->statuses->status ?? [];
+        if (!is_array($it)) {
+            $it = [$it];
+        }
         $ret = [];
-        foreach ($this->statuses->status ?? [] as $status) {
+        foreach ($it as $status) {
             if (($status->severity ?? '') === 'error') {
-                $ret[] = '#' . $status->code . ': ' . $status->description;
+                $ret[] = $status->description;
             }
         }
 
@@ -96,8 +100,12 @@ final class Payment extends Base
      */
     public function statuses (): array
     {
+        $it = $this->statuses->status ?? [];
+        if (!is_array($it)) {
+            $it = [$it];
+        }
         $ret = [];
-        foreach ($this->statuses->status ?? [] as $status) {
+        foreach ($it as $status) {
             $ret[] = '#' . $status->code . ': ' . $status->description;
         }
 
