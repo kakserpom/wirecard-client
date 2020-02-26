@@ -77,9 +77,11 @@ final class Payment extends Base
     }
 
     /**
+     * @param bool $withCode
+     *
      * @return array
      */
-    public function errors (): array
+    public function errors (bool $withCode = false): array
     {
         $it = $this->statuses->status ?? [];
         if (!is_array($it)) {
@@ -88,7 +90,7 @@ final class Payment extends Base
         $ret = [];
         foreach ($it as $status) {
             if (($status->severity ?? '') === 'error') {
-                $ret[] = $status->description;
+                $ret[] = ($withCode ? '#' . $status->code . ': ' : '') . $status->description;
             }
         }
 
@@ -96,9 +98,11 @@ final class Payment extends Base
     }
 
     /**
+     * @param bool $withCode
+     *
      * @return array
      */
-    public function statuses (): array
+    public function statuses (bool $withCode = false): array
     {
         $it = $this->statuses->status ?? [];
         if (!is_array($it)) {
@@ -106,7 +110,7 @@ final class Payment extends Base
         }
         $ret = [];
         foreach ($it as $status) {
-            $ret[] = '#' . $status->code . ': ' . $status->description;
+            $ret[] = ($withCode ? '#' . $status->code . ': ' : '') . $status->description;
         }
 
         return $ret;
