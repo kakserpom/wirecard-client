@@ -101,6 +101,14 @@ final class Payment extends Base
     }
 
     /**
+     * @return string
+     */
+    public function getPaymentRedirectUrl (): string
+    {
+        return $this->{'payment-redirect-url'};
+    }
+
+    /**
      * @param bool $withCode
      *
      * @return array
