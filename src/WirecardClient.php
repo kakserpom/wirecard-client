@@ -2,9 +2,8 @@
 
 namespace WirecardClient;
 
+use WirecardClient\Exceptions\DataNotFoundException;
 use WirecardClient\Exceptions\RequestFailedException;
-use WirecardClient\Responses\RegisterPayment;
-use WirecardClient\Responses\SearchPayment;
 use WirecardClient\Types\Payment;
 
 /**
@@ -81,10 +80,11 @@ class WirecardClient
 
     /**
      * @param Payment $payment
-     * @return RegisterPayment
+     *
+     * @return Payment
      * @throws RequestFailedException
      */
-    public function registerPaymentWpp(Payment $payment)
+    public function registerPaymentWpp(Payment $payment): Payment
     {
         $payment->setMerchantAccountId($this->MAID);
 
@@ -103,15 +103,16 @@ class WirecardClient
             ],
             CURLOPT_POSTFIELDS => $payload,
         ]);
-        return new RegisterPayment($this->getResponse($ch));
+        return Payment::fromObject($this->getResponse($ch));
     }
 
     /**
      * @param Payment $payment
+     *
      * @return Payment
      * @throws RequestFailedException
      */
-    public function registerPayment(Payment $payment)
+    public function registerPayment(Payment $payment): Payment
     {
         $payment->setMerchantAccountId($this->MAID);
 
@@ -133,38 +134,50 @@ class WirecardClient
             ],
             CURLOPT_POSTFIELDS => $payload,
         ]);
-        $response = $this->getResponse($ch);
-
-        return Payment::fromObject($response);
+        return Payment::fromObject($this->getResponse($ch));
     }
 
     /**
      * @param string $transaction
-     * @return mixed
+     *
+     * @return Payment
+     * @throws DataNotFoundException
      * @throws RequestFailedException
      */
-    public function searchPaymentByTransactionId(string $transaction)
+    public function searchPaymentByTransactionId(string $transaction): Payment
     {
         $ch = $this->initCurl();
         curl_setopt_array($ch, [
             CURLOPT_URL => $this->apiUrl . 'engine/rest/merchants/' . $this->MAID . '/payments/' . $transaction,
         ]);
-        return new SearchPayment($this->getResponse($ch));
+
+        $response = $this->getResponse($ch);
+        if (!(array)$response->payment) {
+            throw new DataNotFoundException;
+        }
+        return Payment::fromObject($response->payment);
     }
 
     /**
      * @param string $requestId
-     * @return SearchPayment
+     *
+     * @return Payment
+     * @throws DataNotFoundException
      * @throws RequestFailedException
      */
-    public function searchPaymentByRequestId(string $requestId)
+    public function searchPaymentByRequestId(string $requestId): Payment
     {
         $ch = $this->initCurl();
         curl_setopt_array($ch, [
             CURLOPT_URL => $this->apiUrl . 'engine/rest/merchants/' . $this->MAID . '/payments/search?payment.request-id='
                 . urlencode($requestId)
         ]);
-        return new SearchPayment($this->getResponse($ch));
+
+        $response = $this->getResponse($ch);
+        if (!(array)$response->payment) {
+            throw new DataNotFoundException;
+        }
+        return Payment::fromObject($response->payment);
     }
 
     /**
@@ -193,6 +206,11 @@ class WirecardClient
         return $object;
     }
 
+    /**
+     * @param $xml
+     *
+     * @return \stdClass|string
+     */
     protected static function xml2json($xml)
     {
         $object = new \stdClass();
