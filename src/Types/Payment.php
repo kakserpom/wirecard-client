@@ -87,6 +87,14 @@ final class Payment extends Base
     /**
      * @return string
      */
+    public function getTransactionType (): string
+    {
+        return $this->{'transaction-type'};
+    }
+
+    /**
+     * @return string
+     */
     public function getTransactionId (): string
     {
         return $this->{'transaction-id'};
